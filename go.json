@@ -26,27 +26,31 @@
 		],
 		"description": "Use to create if err block"
 	},
-	"For Cobra Cmd": {
-		"prefix": ["cobracmd"],
+	"For cmd": {
+		"prefix": ["package", "cobra"],
 		"body": [
 			"package cmd",
 			"",
 			"import (",
+			"\t\"fmt\"",
+			"",
 			"\t\"github.com/spf13/cobra\"",
 			")",
 			"",
-			"var $TM_FILENAME_BASE = &cobra.Command{",
-			"\tUse:\"${1:foo}\",",
-			"\tShort: \"${2:Short Desciption}\",",
-			"\tRun: func(cmd *cobra.Command, args []string) {",
-			"$0",
-			"\t},",
-			"}",
+			"var (",
+			"\t${1:$TM_FILENAME_BASE} = &cobra.Command{",
+			"\t\tUse: \"${2:${1/[C|c][M|m][D|d]/$1/}}\",",
+			"\t\tRun: func(cmd *cobra.Command, args []string) {",
+			"\t\t\t${0:fmt.Println(\"Hello\")}",
+			"\t\t},",
+			"\t}",
+			")",
 			"",
 			"func init() {",
-			"\trootCmd.AddCommand($TM_FILENAME_BASE)",
+			"\t${3:rootCmd}.AddCommand($1)",
 			"}",
-		],
+			"",
+			],
 		"description": "Create a basic cobra command"
 	}
 }
